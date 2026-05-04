@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LevelCards" />
+  <link rel="manifest" href="manifest.json" />
+  <title>LevelCards Learn</title>
+  <style>
+    :root{
+      --bg:#0b1020;--panel:#121a31;--panel2:#17213d;--card:#ffffff;--text:#eef2ff;--muted:#9aa6c7;--line:rgba(255,255,255,.12);
+      --accent:#7c3aed;--accent2:#06b6d4;--good:#22c55e;--bad:#ef4444;--warn:#f59e0b;--ink:#111827;--soft:#eef2ff;
+      --shadow:0 18px 50px rgba(0,0,0,.35);--r:24px;
+    }
+    *{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;background:radial-gradient(circle at top left,#27305d 0,#0b1020 42%,#070a13 100%);color:var(--text);}
+    button,input,textarea,select{font:inherit} button{touch-action:manipulation}
+    .app{max-width:980px;margin:0 auto;min-height:100%;padding:env(safe-area-inset-top) 14px 92px}
+    header{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:linear-gradient(180deg,rgba(11,16,32,.96),rgba(11,16,32,.72));padding:14px 0 10px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .top{display:flex;align-items:center;gap:12px;justify-content:space-between}.brand{display:flex;gap:10px;align-items:center}.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:900;box-shadow:0 10px 30px rgba(124,58,237,.4)}
+    h1{font-size:20px;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:2px}.pill{border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:999px;padding:8px 11px;color:var(--text);font-weight:700;font-size:12px}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}.tab{border:0;border-radius:14px;padding:10px 7px;color:#cbd5e1;background:rgba(255,255,255,.06);font-weight:800;font-size:12px}.tab.active{background:linear-gradient(135deg,var(--accent),#2563eb);color:white}
+    main{padding-top:16px}.screen{display:none}.screen.active{display:block}.panel{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.045));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin:12px 0}.panel h2{margin:0 0 10px;font-size:20px}.hint{color:var(--muted);font-size:13px;line-height:1.45}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.grid{display:grid;gap:12px}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:18px;padding:13px}.stat b{display:block;font-size:24px}.stat span{color:var(--muted);font-size:12px}
+    textarea,input,select{width:100%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:var(--text);border-radius:16px;padding:13px;outline:none} textarea{min-height:190px;resize:vertical;line-height:1.35}.btn{border:0;border-radius:16px;padding:12px 14px;background:rgba(255,255,255,.09);color:white;font-weight:900}.btn.primary{background:linear-gradient(135deg,var(--accent),#2563eb)}.btn.good{background:linear-gradient(135deg,#16a34a,#22c55e)}.btn.bad{background:linear-gradient(135deg,#dc2626,#ef4444)}.btn.warn{background:linear-gradient(135deg,#d97706,#f59e0b)}.btn.ghost{border:1px solid var(--line);background:transparent}.btn:disabled{opacity:.45}.big{font-size:17px;padding:15px 16px}.danger{color:#fecaca}.ok{color:#bbf7d0}.warnText{color:#fde68a}
+    .learnWrap{display:grid;gap:14px}.progressBox{background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:20px;padding:13px}.bar{height:12px;background:rgba(255,255,255,.09);border-radius:99px;overflow:hidden}.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--good));transition:.35s}.bar.small{height:8px}.meta{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:12px;margin-top:8px}.card{background:var(--card);color:var(--ink);border-radius:30px;box-shadow:0 22px 70px rgba(0,0,0,.35);padding:22px;min-height:310px;display:flex;flex-direction:column;justify-content:space-between}.mode{display:flex;justify-content:space-between;gap:8px;align-items:center;color:#64748b;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.star{border:0;background:#f1f5f9;color:#64748b;width:42px;height:42px;border-radius:50%;font-size:22px}.star.on{color:#f59e0b;background:#fffbeb}.term{font-size:34px;line-height:1.05;font-weight:950;margin:20px 0 12px;word-break:break-word}.prompt{color:#64748b;font-weight:700}.choices{display:grid;gap:10px;margin-top:16px}.choice{border:2px solid #e2e8f0;background:#f8fafc;color:#111827;border-radius:18px;padding:14px;text-align:left;font-weight:850}.choice.correct{border-color:#22c55e;background:#dcfce7}.choice.wrong{border-color:#ef4444;background:#fee2e2}.writeInput{background:#f8fafc;color:#111827;border:2px solid #e2e8f0;font-size:20px}.feedback{border-radius:18px;padding:12px 13px;margin-top:12px;font-weight:800}.feedback.good{background:#dcfce7;color:#166534}.feedback.bad{background:#fee2e2;color:#991b1b}.answer{font-size:24px;font-weight:950;margin-top:8px}.mini{font-size:12px;color:#64748b}.levels{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:10px}.lvl{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;padding:9px 5px;text-align:center}.lvl b{display:block}.lvl span{font-size:10px;color:var(--muted)}
+    .wordList{display:grid;gap:8px}.word{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:12px;border-radius:16px;background:rgba(255,255,255,.055);border:1px solid var(--line)}.word small{color:var(--muted)}.tag{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-size:11px;color:#dbeafe;font-weight:800}.footerNav{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(7,10,19,.86);backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.1);padding:9px 14px calc(9px + env(safe-area-inset-bottom));display:none}.footerNav .tabs{margin:0;max-width:980px;margin-inline:auto}
+    .toast{position:fixed;left:50%;bottom:82px;transform:translateX(-50%) translateY(20px);opacity:0;background:#111827;color:white;padding:12px 16px;border-radius:999px;box-shadow:var(--shadow);z-index:90;transition:.2s;font-weight:800}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    details{border:1px solid var(--line);border-radius:16px;padding:12px;background:rgba(255,255,255,.04)} summary{font-weight:900;cursor:pointer}.sep{height:1px;background:var(--line);margin:12px 0}.hidden{display:none!important}
+    @media(max-width:680px){.app{padding-left:12px;padding-right:12px}.tabs.topTabs{display:none}.footerNav{display:block}.grid2,.grid3{grid-template-columns:1fr}.term{font-size:30px}.card{min-height:360px}.panel{padding:14px}.levels{grid-template-columns:repeat(3,1fr)}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="top"><div class="brand"><div class="logo">LC</div><div><h1>LevelCards Learn</h1><div class="sub">адаптивное обучение словам: тест → письмо → повтор</div></div></div><button class="pill" id="installBtn">Установить</button></div>
+    <div class="tabs topTabs" id="tabs"></div>
+  </header>
+  <main>
+    <section id="home" class="screen active"></section>
+    <section id="learn" class="screen"></section>
+    <section id="sets" class="screen"></section>
+    <section id="words" class="screen"></section>
+    <section id="settings" class="screen"></section>
+  </main>
+</div>
+<div class="footerNav"><div class="tabs" id="tabs2"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const APP_VERSION='1.0.0-final';
+const STORE_KEY='levelcards.pwa.final.v1';
+const OLD_KEYS=['quizletPwaSpacedLearn','quizletLearnLevelsFixed','levelcards.data'];
+const LEVEL_NAMES=['Новое','Узнал','Знакомо','Пишу','Крепко','Выучено'];
+const DEFAULT_SETTINGS={oldMix:0.16,favBoost:1.7,wrongDelayMin:2,wrongDelayMax:4,writeBase:0.06,writeMax:0.48,reverseChance:0.45,masterLevel:5,typoTolerance:true};
+let state={sets:[],words:{},activeSetId:null,settings:{...DEFAULT_SETTINGS},session:null,createdAt:Date.now(),version:APP_VERSION};
+let current=null; let deferredPrompt=null;
+const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
+function uid(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+function now(){return Date.now()} function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
+function norm(s){return String(s||'').toLowerCase().trim().replace(/[ё]/g,'е').replace(/[’']/g,"'").replace(/[.,!?;:()\[\]{}]/g,' ').replace(/\s+/g,' ')}
+function esc(s){return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}
+function load(){
+  const raw=localStorage.getItem(STORE_KEY); if(raw){try{state={...state,...JSON.parse(raw)}; state.settings={...DEFAULT_SETTINGS,...state.settings}; return}catch(e){}}
+  for(const k of OLD_KEYS){const r=localStorage.getItem(k); if(!r)continue; try{migrate(JSON.parse(r)); save(); return}catch(e){}}
+}
+function migrate(old){
+  state={sets:[],words:{},activeSetId:null,settings:{...DEFAULT_SETTINGS},session:null,createdAt:now(),version:APP_VERSION};
+  if(Array.isArray(old.cards)){addSet('Импорт из старой версии',old.cards.map(c=>({front:c.front||c.term||'',back:c.back||c.def||''})));}
+  else if(old.words){const arr=Object.values(old.words).map(w=>({front:w.front||w.term,back:w.back||w.definition})).filter(x=>x.front&&x.back); if(arr.length)addSet('Импорт из старой версии',arr)}
+}
+function blankStats(){return {seen:0,testSeen:0,writeSeen:0,correct:0,wrong:0,testCorrect:0,writeCorrect:0,streak:0,lapses:0,level:0,ease:2.3,lastSeen:0,dueAt:0,nextOffset:0,history:[]}}
+function addSet(name,pairs){const id=uid(); state.sets.push({id,name:name||'Набор',createdAt:now(),updatedAt:now()}); state.activeSetId=id; for(const p of pairs){if(!p.front||!p.back)continue; const wid=uid(); state.words[wid]={id:wid,setId:id,front:p.front.trim(),back:p.back.trim(),favorite:false,createdAt:now(),stats:blankStats()}} save();}
+function activeSet(){return state.sets.find(s=>s.id===state.activeSetId)||state.sets[0]}
+function wordsOf(setId=state.activeSetId){return Object.values(state.words).filter(w=>!setId||w.setId===setId)}
+function allWords(){return Object.values(state.words)}
+function parseCards(text){
+  return text.split(/\n+/).map(l=>l.trim()).filter(Boolean).map(line=>{
+    let parts=null; for(const sep of [' — ',' - ','\t',';','|',':']){if(line.includes(sep)){parts=line.split(sep);break}}
+    if(!parts){const m=line.match(/^(.+?)\s{2,}(.+)$/); if(m)parts=[m[1],m[2]]}
+    if(!parts||parts.length<2)return null; const front=parts.shift().trim(); const back=parts.join(' ').trim(); return front&&back?{front,back}:null;
+  }).filter(Boolean)
+}
+function levelProgress(w){return clamp((w.stats.level||0)/5*100,0,100)}
+function setStats(setId=state.activeSetId){const ws=wordsOf(setId); const total=ws.length; const mastered=ws.filter(w=>w.stats.level>=5).length; const avg=total?ws.reduce((a,w)=>a+w.stats.level,0)/(total*5):0; const wrong=ws.reduce((a,w)=>a+w.stats.wrong,0); const due=ws.filter(w=>isDue(w)).length; return {total,mastered,avg,wrong,due}}
+function isDue(w){return !w.stats.dueAt || w.stats.dueAt<=now() || w.stats.level<2}
+function oldCandidate(w){return w.setId!==state.activeSetId && (w.favorite || w.stats.level<5 || isDue(w))}
+function chooseDirection(w,force){ if(force)return force; return Math.random()<state.settings.reverseChance?'backToFront':'frontToBack' }
+function promptText(w,dir){return dir==='frontToBack'?w.front:w.back} function answerText(w,dir){return dir==='frontToBack'?w.back:w.front}
+function writeEligible(w){const s=w.stats; return s.testCorrect>=1 || s.seen>=2 || s.level>=2}
+function writeProbability(w){const s=w.stats; if(!writeEligible(w))return 0; let p=state.settings.writeBase + (s.level*0.055) + Math.min(.16,s.testCorrect*.035) + (s.writeSeen?0.05:0); if(s.wrong>s.correct)p-=.04; if(s.level>=4)p+=.08; return clamp(p,state.settings.writeBase,state.settings.writeMax)}
+function itemWeight(w,fromActive=true){const s=w.stats; let weight=1; if(s.level===0)weight+=6; else weight+=Math.max(0,6-s.level)*.85; if(isDue(w))weight+=3; if(s.wrong)weight+=Math.min(5,s.wrong*.7); if(s.lapses)weight+=Math.min(4,s.lapses*.55); if(w.favorite)weight*=state.settings.favBoost; if(!fromActive)weight*=1.35; if(s.lastSeen && now()-s.lastSeen<45000)weight*=.15; return Math.max(.05,weight)}
+function weightedPick(list,weightFn){if(!list.length)return null; const weights=list.map(weightFn); const sum=weights.reduce((a,b)=>a+b,0); let r=Math.random()*sum; for(let i=0;i<list.length;i++){r-=weights[i]; if(r<=0)return list[i]} return list[list.length-1]}
+function scheduleAfterCorrect(w,mode){const s=w.stats; const base=[0,0,2,8,24,72][s.level]||96; const mult=mode==='write'?1.35:1; const minutes=Math.max(1,base*mult*60); s.dueAt=now()+minutes*60000; s.ease=clamp(s.ease+0.04,1.3,3.2)}
+function scheduleAfterWrong(w){const s=w.stats; s.dueAt=now()+60*1000; s.ease=clamp(s.ease-0.18,1.3,3.2)}
+function nextLevelOnCorrect(w,mode){const s=w.stats; if(mode==='write'){ if(s.level<3)s.level=3; else if(s.streak>=2)s.level=Math.min(5,s.level+1); }
+  else { if(s.level===0)s.level=1; else if(s.streak>=2 && s.level<3)s.level++; else if(s.level>=3 && s.streak>=3)s.level=Math.min(5,s.level+1); }
+}
+function levelOnWrong(w){const s=w.stats; if(s.level>=4)s.level=3; else s.level=Math.max(0,s.level-1)}
+function answerMatches(input,answer){const a=norm(input); const variants=String(answer).split(/\s*(?:\/|,|;|\|)\s*/).map(norm).filter(Boolean); if(variants.includes(a))return true; if(!state.settings.typoTolerance)return false; return variants.some(v=>lev(a,v)<=Math.max(1,Math.floor(v.length*.12)))}
+function lev(a,b){if(!a||!b)return Math.max(a.length,b.length); const dp=Array(b.length+1).fill(0).map((_,j)=>j); for(let i=1;i<=a.length;i++){let prev=dp[0]; dp[0]=i; for(let j=1;j<=b.length;j++){const tmp=dp[j]; dp[j]=Math.min(dp[j]+1,dp[j-1]+1,prev+(a[i-1]===b[j-1]?0:1)); prev=tmp}} return dp[b.length]}
+function startSession(){state.session={activeSetId:state.activeSetId,queue:[],turn:0,correct:0,wrong:0,startedAt:now(),lastIds:[]}; save(); show('learn'); nextCard();}
+function pickNext(){
+  const sess=state.session; if(!sess) return null;
+  sess.turn++;
+  const dueQueued=sess.queue.filter(q=>q.at<=sess.turn); if(dueQueued.length){const q=dueQueued[0]; sess.queue=sess.queue.filter(x=>x!==q); return {word:state.words[q.id],mode:q.mode||'test',dir:q.dir||chooseDirection(state.words[q.id])}}
+  const currentWs=wordsOf(sess.activeSetId); const oldWs=allWords().filter(oldCandidate); const useOld=oldWs.length && Math.random()<state.settings.oldMix && sess.turn>4;
+  let pool=(useOld?oldWs:currentWs).filter(w=>!sess.lastIds.includes(w.id)); if(!pool.length)pool=useOld?oldWs:currentWs; if(!pool.length)return null;
+  const w=weightedPick(pool,w=>itemWeight(w,!useOld)); const wp=writeProbability(w); const mode=Math.random()<wp?'write':'test'; const dir=chooseDirection(w);
+  sess.lastIds=[w.id,...sess.lastIds].slice(0,4); return {word:w,mode,dir};
+}
+function nextCard(){current=pickNext(); save(); renderLearn();}
+function record(w,mode,dir,ok,input=''){
+  const s=w.stats; s.seen++; s.lastSeen=now(); if(mode==='test')s.testSeen++; else s.writeSeen++;
+  if(ok){s.correct++; s.streak++; if(mode==='test')s.testCorrect++; else s.writeCorrect++; nextLevelOnCorrect(w,mode); scheduleAfterCorrect(w,mode); state.session.correct++;}
+  else {s.wrong++; s.lapses++; s.streak=0; if(mode==='write'&&s.testCorrect===0)s.testCorrect=0; levelOnWrong(w); scheduleAfterWrong(w); state.session.wrong++; const delay=randInt(state.settings.wrongDelayMin,state.settings.wrongDelayMax); state.session.queue.push({id:w.id,at:state.session.turn+delay,mode: mode==='write'?'test':'test',dir});}
+  s.history=(s.history||[]).slice(-24); s.history.push({t:now(),mode,dir,ok,input,level:s.level}); save();
+}
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function distractors(w,dir){const ans=answerText(w,dir); const pool=allWords().filter(x=>x.id!==w.id).map(x=>answerText(x,dir)).filter(x=>norm(x)!==norm(ans)); const uniq=[...new Map(pool.map(x=>[norm(x),x])).values()]; shuffle(uniq); return shuffle([ans,...uniq.slice(0,3)]).slice(0,4)}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function nav(){const labels=[['home','Главная'],['learn','Учить'],['sets','Наборы'],['words','Слова'],['settings','Настр.']]; const html=labels.map(([id,l])=>`<button class="tab ${id==='home'?'active':''}" data-tab="${id}">${l}</button>`).join(''); $('#tabs').innerHTML=html; $('#tabs2').innerHTML=html; $$('.tab').forEach(b=>b.onclick=()=>show(b.dataset.tab));}
+function show(id){$$('.screen').forEach(s=>s.classList.toggle('active',s.id===id)); $$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id)); ({home:renderHome,learn:renderLearn,sets:renderSets,words:renderWords,settings:renderSettings}[id]||renderHome)();}
+function renderHome(){const set=activeSet(); const st=setStats(); const all=allWords(); const totalAll=all.length; const masteredAll=all.filter(w=>w.stats.level>=5).length; $('#home').innerHTML=`
+ <div class="panel"><h2>${set?esc(set.name):'Нет набора'}</h2><div class="hint">Финальная логика Learn: сначала в основном тесты, письмо появляется только после знакомства со словом. Ошибки возвращаются через 2–4 карточки. Старые слабые и избранные слова иногда подмешиваются в новый набор.</div><div class="sep"></div><div class="grid grid3"><div class="stat"><b>${st.total}</b><span>слов в наборе</span></div><div class="stat"><b>${Math.round(st.avg*100)}%</b><span>прогресс набора</span></div><div class="stat"><b>${st.wrong}</b><span>ошибок</span></div></div><div style="margin-top:14px" class="bar"><i style="width:${Math.round(st.avg*100)}%"></i></div><div class="meta"><span>${st.mastered}/${st.total} выучено</span><span>${st.due} к повторению</span></div><div class="row" style="margin-top:14px"><button class="btn primary big" onclick="startSession()" ${st.total?'':'disabled'}>Начать учить</button><button class="btn ghost big" onclick="show('sets')">Добавить карточки</button></div></div>
+ <div class="panel"><h2>Общая память</h2><div class="grid grid3"><div class="stat"><b>${totalAll}</b><span>всего слов</span></div><div class="stat"><b>${masteredAll}</b><span>выучено</span></div><div class="stat"><b>${all.filter(w=>w.favorite).length}</b><span>в избранном</span></div></div>${levelBars(all)}</div>
+ <div class="panel"><h2>Как работает алгоритм</h2><div class="hint">У каждого слова есть уровень 0–5, счётчик правильных тестов, письма, ошибок и срок следующего повтора. На ранних уровнях слово чаще даётся в тесте. В письмо оно попадает, если ты уже правильно выбрал его в тесте или видел минимум два раза. Ошибка снижает уровень и ставит слово в короткую очередь повторения. Когда ты учишь новый набор, приложение изредка добавляет старые слова: чаще избранные, слабые и просроченные.</div></div>`;}
+function levelBars(ws){const counts=[0,0,0,0,0,0]; ws.forEach(w=>counts[w.stats.level||0]++); return `<div class="levels">${counts.map((c,i)=>`<div class="lvl"><b>${c}</b><span>L${i} ${LEVEL_NAMES[i]}</span></div>`).join('')}</div>`}
+function renderLearn(){const st=setStats(state.session?.activeSetId||state.activeSetId); if(!state.session){$('#learn').innerHTML=`<div class="panel"><h2>Режим Учить</h2><div class="hint">Нажми старт. Здесь будут только два формата: тест и письмо.</div><div class="row" style="margin-top:14px"><button class="btn primary big" onclick="startSession()">Начать</button></div></div>`;return}
+ if(!current||!current.word){$('#learn').innerHTML=`<div class="panel"><h2>Нет карточек</h2><button class="btn primary" onclick="show('sets')">Добавить набор</button></div>`;return}
+ const w=current.word, s=w.stats, q=promptText(w,current.dir), ans=answerText(w,current.dir); const global=setStats(state.session.activeSetId); const progress=Math.round(global.avg*100);
+ let body=''; if(current.mode==='test'){const opts=distractors(w,current.dir); body=`<div class="choices">${opts.map(o=>`<button class="choice" data-answer="${esc(o)}">${esc(o)}</button>`).join('')}</div>`}
+ else {body=`<input id="writeInput" class="writeInput" autocomplete="off" autocapitalize="none" placeholder="Напиши ответ" /><button class="btn primary big" id="checkWrite" style="margin-top:12px;width:100%">Проверить</button>`}
+ $('#learn').innerHTML=`<div class="learnWrap"><div class="progressBox"><div class="bar"><i style="width:${progress}%"></i></div><div class="meta"><span>Прогресс набора: ${progress}%</span><span>Сессия: ✅ ${state.session.correct} / ❌ ${state.session.wrong}</span></div></div><div class="card"><div><div class="mode"><span>${current.mode==='test'?'Тест':'Письмо'} · ${current.dir==='frontToBack'?'слово → перевод':'перевод → слово'}</span><button class="star ${w.favorite?'on':''}" onclick="toggleFav('${w.id}')">★</button></div><div class="term">${esc(q)}</div><div class="prompt">${current.mode==='test'?'Выбери правильный ответ':'Введи правильный ответ'}</div>${body}<div id="fb"></div></div><div class="mini">Уровень ${s.level}: ${LEVEL_NAMES[s.level]} · видел: ${s.seen} · тест ✅ ${s.testCorrect} · письмо ✅ ${s.writeCorrect} · ошибки ${s.wrong}</div></div><div class="row"><button class="btn ghost" onclick="nextCard()">Пропустить</button><button class="btn warn" onclick="markHard()">Тяжёлое ★</button><button class="btn bad" onclick="endSession()">Закончить</button></div></div>`;
+ if(current.mode==='test')$$('.choice').forEach(b=>b.onclick=()=>handleTest(b,ans)); else {$('#checkWrite').onclick=()=>handleWrite(ans); $('#writeInput').addEventListener('keydown',e=>{if(e.key==='Enter')handleWrite(ans)}); setTimeout(()=>$('#writeInput')?.focus(),50)}
+}
+function lockChoices(){ $$('.choice').forEach(b=>b.disabled=true) }
+function handleTest(btn,ans){const ok=norm(btn.dataset.answer)===norm(ans); lockChoices(); btn.classList.add(ok?'correct':'wrong'); $$('.choice').forEach(b=>{if(norm(b.dataset.answer)===norm(ans))b.classList.add('correct')}); record(current.word,'test',current.dir,ok); $('#fb').innerHTML=`<div class="feedback ${ok?'good':'bad'}">${ok?'Верно':'Неверно'}<div class="answer">${esc(ans)}</div></div><button class="btn primary big" style="width:100%;margin-top:12px" onclick="nextCard()">Дальше</button>`;}
+function handleWrite(ans){const inp=$('#writeInput'); if(!inp)return; const val=inp.value; const ok=answerMatches(val,ans); inp.disabled=true; $('#checkWrite').disabled=true; record(current.word,'write',current.dir,ok,val); $('#fb').innerHTML=`<div class="feedback ${ok?'good':'bad'}">${ok?'Верно':'Неверно'}<div class="mini">Твой ответ: ${esc(val||'—')}</div><div class="answer">${esc(ans)}</div></div><button class="btn primary big" style="width:100%;margin-top:12px" onclick="nextCard()">Дальше</button>`;}
+function markHard(){if(!current)return; current.word.favorite=true; current.word.stats.lapses++; current.word.stats.level=Math.max(0,current.word.stats.level-1); save(); toast('Добавлено в тяжёлые ★'); renderLearn();}
+function toggleFav(id){const w=state.words[id]; if(w){w.favorite=!w.favorite; save(); renderLearn();}}
+function endSession(){state.session=null; current=null; save(); show('home')}
+function renderSets(){const set=activeSet(); $('#sets').innerHTML=`<div class="panel"><h2>Добавить набор</h2><div class="hint">Формат: <b>слово — перевод</b>. Также принимает таб, точку с запятой, вертикальную черту или двоеточие.</div><input id="setName" placeholder="Название набора" value="${esc('Новый набор')}" style="margin:12px 0"/><textarea id="importText" placeholder="Peep it — Зацени\nsanity — здравомыслие\nопасность — peril"></textarea><div class="row" style="margin-top:12px"><button class="btn primary big" onclick="importSet()">Импортировать</button><button class="btn ghost" onclick="sampleCards()">Вставить пример</button></div></div><div class="panel"><h2>Мои наборы</h2><div class="wordList">${state.sets.map(s=>{const st=setStats(s.id); return `<div class="word"><div><b>${esc(s.name)}</b><br><small>${st.total} слов · ${Math.round(st.avg*100)}% · ошибок ${st.wrong}</small></div><div class="row"><button class="btn ${s.id===state.activeSetId?'good':'ghost'}" onclick="selectSet('${s.id}')">${s.id===state.activeSetId?'Активен':'Выбрать'}</button><button class="btn bad" onclick="deleteSet('${s.id}')">×</button></div></div>`}).join('')||'<div class="hint">Пока наборов нет.</div>'}</div></div>`;}
+function importSet(){const pairs=parseCards($('#importText').value); if(!pairs.length){toast('Не нашёл пары слов');return} addSet($('#setName').value||'Новый набор',pairs); toast(`Импортировано: ${pairs.length}`); show('home')}
+function sampleCards(){$('#importText').value='Peep it — Зацени\nsanity — здравомыслие\nperil — опасность, риск\nconspicuous — бросающийся в глаза\nmake amends — загладить вину\ncurfew — комендантский час'}
+function selectSet(id){state.activeSetId=id; state.session=null; save(); show('home')}
+function deleteSet(id){if(!confirm('Удалить набор и его слова?'))return; state.sets=state.sets.filter(s=>s.id!==id); Object.values(state.words).forEach(w=>{if(w.setId===id)delete state.words[w.id]}); state.activeSetId=state.sets[0]?.id||null; save(); renderSets();}
+function renderWords(){const ws=wordsOf(); const filterHtml=`<div class="row"><select id="wordFilter"><option value="all">Все</option><option value="fav">Избранные/тяжёлые</option><option value="weak">Слабые L0-L2</option><option value="errors">С ошибками</option><option value="mastered">Выученные</option></select><button class="btn ghost" onclick="resetActiveProgress()">Сбросить прогресс набора</button></div>`; $('#words').innerHTML=`<div class="panel"><h2>Слова</h2>${filterHtml}<div id="wordList" class="wordList" style="margin-top:12px"></div></div>`; $('#wordFilter').onchange=drawWords; drawWords();}
+function drawWords(){let ws=wordsOf(); const f=$('#wordFilter')?.value||'all'; if(f==='fav')ws=ws.filter(w=>w.favorite); if(f==='weak')ws=ws.filter(w=>w.stats.level<=2); if(f==='errors')ws=ws.filter(w=>w.stats.wrong>0); if(f==='mastered')ws=ws.filter(w=>w.stats.level>=5); $('#wordList').innerHTML=ws.map(w=>`<div class="word"><div><b>${esc(w.front)}</b> — ${esc(w.back)}<br><small>L${w.stats.level} ${LEVEL_NAMES[w.stats.level]} · видел ${w.stats.seen} · ✅ ${w.stats.correct} · ❌ ${w.stats.wrong}</small><div style="margin-top:7px" class="bar small"><i style="width:${levelProgress(w)}%"></i></div></div><div><button class="star ${w.favorite?'on':''}" onclick="toggleWordFav('${w.id}')">★</button></div></div>`).join('')||'<div class="hint">Нет слов по фильтру.</div>'}
+function toggleWordFav(id){const w=state.words[id]; w.favorite=!w.favorite; save(); drawWords();}
+function resetActiveProgress(){if(!confirm('Сбросить прогресс активного набора?'))return; wordsOf().forEach(w=>w.stats=blankStats()); save(); renderWords();}
+function renderSettings(){ $('#settings').innerHTML=`<div class="panel"><h2>Настройки алгоритма</h2><label>Подмешивание старых слов: <b id="oldMixVal">${Math.round(state.settings.oldMix*100)}%</b></label><input type="range" min="0" max="40" value="${Math.round(state.settings.oldMix*100)}" id="oldMix"/><label>Вероятность RU→EN: <b id="revVal">${Math.round(state.settings.reverseChance*100)}%</b></label><input type="range" min="0" max="100" value="${Math.round(state.settings.reverseChance*100)}" id="rev"/><label>Макс. доля письма: <b id="writeVal">${Math.round(state.settings.writeMax*100)}%</b></label><input type="range" min="10" max="70" value="${Math.round(state.settings.writeMax*100)}" id="writeMax"/><div class="row" style="margin-top:12px"><button class="btn primary" onclick="saveSettings()">Сохранить</button><button class="btn ghost" onclick="resetSettings()">По умолчанию</button></div></div><div class="panel"><h2>Бэкап памяти</h2><div class="hint">iPhone может очистить данные сайта, если долго не открывать. Поэтому иногда делай экспорт.</div><div class="row" style="margin-top:12px"><button class="btn good" onclick="exportData()">Экспорт</button><button class="btn warn" onclick="$('#backupInput').click()">Импорт</button><input id="backupInput" type="file" accept="application/json" class="hidden" /></div></div><div class="panel"><h2>Установка на iPhone</h2><ol class="hint"><li>Залей файлы на GitHub Pages.</li><li>Открой ссылку сайта в Safari.</li><li>Нажми «Поделиться» → «На экран Домой».</li><li>После первого открытия сайт работает офлайн.</li></ol></div><div class="panel"><h2>Опасная зона</h2><button class="btn bad" onclick="wipeAll()">Удалить всё</button></div>`;
+ $('#oldMix').oninput=e=>$('#oldMixVal').textContent=e.target.value+'%'; $('#rev').oninput=e=>$('#revVal').textContent=e.target.value+'%'; $('#writeMax').oninput=e=>$('#writeVal').textContent=e.target.value+'%'; $('#backupInput').onchange=importData;}
+function saveSettings(){state.settings.oldMix=+$('#oldMix').value/100; state.settings.reverseChance=+$('#rev').value/100; state.settings.writeMax=+$('#writeMax').value/100; save(); toast('Настройки сохранены')}
+function resetSettings(){state.settings={...DEFAULT_SETTINGS}; save(); renderSettings();}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='levelcards-backup.json'; a.click(); URL.revokeObjectURL(a.href)}
+function importData(e){const file=e.target.files[0]; if(!file)return; const r=new FileReader(); r.onload=()=>{try{const data=JSON.parse(r.result); if(!data.words||!data.sets)throw Error(); state={...state,...data,settings:{...DEFAULT_SETTINGS,...data.settings}}; save(); toast('Бэкап импортирован'); show('home')}catch{toast('Не удалось импортировать')}}; r.readAsText(file)}
+function wipeAll(){if(!confirm('Точно удалить все наборы и прогресс?'))return; localStorage.removeItem(STORE_KEY); state={sets:[],words:{},activeSetId:null,settings:{...DEFAULT_SETTINGS},session:null,createdAt:now(),version:APP_VERSION}; save(); show('home')}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;}); $('#installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt(); deferredPrompt=null}else toast('На iPhone: Safari → Поделиться → На экран Домой')};
+if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+load(); nav(); if(!state.sets.length){addSet('Стартовый пример',[{front:'peril',back:'опасность, риск'},{front:'sanity',back:'здравомыслие'},{front:'conspicuous',back:'бросающийся в глаза'},{front:'make amends',back:'загладить вину'}])} show('home');
+</script>
+</body>
+</html>
